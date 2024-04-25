@@ -1,0 +1,35 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <table border="1" align="center" cellpadding="10" width="70%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Products</th>
+            <th>Brand</th>
+            <th>Image</th>
+            <th>Price</th>
+        </tr>
+        {% for i in cartdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.productID.product_name}}</td>
+            <td>{{i.productID.brand.brand_name}}</td>
+            <td><img src="{{i.productID.product_photo.url}}" width="150" height="150" alt=""></td>
+            <td>{{i.productID.product_price}}</td>
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

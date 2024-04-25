@@ -1,0 +1,133 @@
+{% extends 'Seller/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <table>
+        <tr>
+            <td>Product Name</td>
+            <td><input type="text" name="txtname" placeholder="Enter Product Name" required ></td>
+        </tr>
+    
+        <tr>
+            <td>Category</td>
+            <td>
+                <select name="sel_category" id="sel_category">
+                    <option value="">...Select...</option>
+                    {% for i in categorydata %}
+                    <option value="{{i.id}}">{{i.category_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Sub Category</td>
+            <td>
+                <select name="sel_subcategory" id="sel_subcategory">
+                    <option value="">...Select...</option>
+                </select>
+            </td>
+        </tr>
+    
+        <tr>
+            <td>Brand</td>
+            <td>
+                <select name="sel_brand" id="sel_brand">
+                    <option value="">...Select...</option>
+                    {% for i in branddata %}
+                    <option value="{{i.id}}">{{i.brand_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+    
+        <tr>
+            <td>Price</td>
+            <td><input type="text" name="txtprice" placeholder="Enter Price" required ></td>
+        </tr>
+    
+        <tr>
+            <td>Details</td>
+            <td>
+                <textarea name="txtdetails" rows="6" cols="20"></textarea>
+           </td>
+           </tr>
+        <tr>
+    
+        <tr>
+            <td>Photo</td>
+            <td><input type="file" name="fileImage"  required ></td>
+        </tr>
+    
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" name="btnsubmit" value="Save">
+                <input type="reset" name="btncancel" value="Cancel">
+            </td>
+        </tr>
+    </table>
+    <br>
+
+</form>
+
+
+    <table border="1" align="center" cellpadding="10" width="80%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Sub category</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Details</th>
+            <th>Images</th>
+            <th>Action</th>
+        </tr>
+        {% for i in productdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.product_name}}</td>
+            <td>{{i.subcategory.category.category_name}}</td>
+            <td>{{i.subcategory.subcategory_name}}</td>
+            <td>{{i.brand.brand_name}}</td>
+            <td>{{i.product_price}}</td>
+            <td>{{i.product_details}}</td>
+            <td><img src="{{i.product_photo.url}}" width="150" height="150" alt=""></td>
+            <td>
+                <a href="{% url 'Seller:delproduct' i.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $("#sel_category").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Seller:ajaxsubcategory' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#sel_subcategory").html(data);
+            },
+        });
+    });
+</script>
+
+
+{% endblock content %}

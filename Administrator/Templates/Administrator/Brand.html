@@ -1,0 +1,54 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+    <br>
+    <form name="frmBrand" method="post">
+        {% csrf_token %}
+        <table align="center" width="100%">
+        <tr>
+            <td>Brand</td>
+            <td>
+                <input type="text" name="txtbrand" placeholder="Enter the brand name" value="{{editdata.brand_name}}">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="Save" name="btnsave">
+                <input type="reset" value="Cancel" name="btncancel">
+            </td>
+        </tr>
+        </table>
+    </form>
+    <br>
+    <table border="1" align="center" cellpadding="10" width="100%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Brand</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.brand_name}}</td>
+            <td>
+                <a href="{% url 'Administrator:delBrand' i.id %}">Delete</a> 
+                <a href="{% url 'Administrator:brandupdate' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</body>
+</html>
+{% endblock content %}

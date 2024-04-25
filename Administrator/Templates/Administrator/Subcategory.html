@@ -1,0 +1,69 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        <table align="center" width="100%">
+            <tr>
+                <td>Category</td>
+                <td>
+                    <select name="sel_category" id="sel_category">
+                        <option value="">...Select...</option>
+                        {% for i in categorydata %}
+                        <option
+                        {% if i.id == editdata.category_id %}
+                        selected
+                        {% endif %}
+                        value="{{i.id}}">{{i.category_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Sub Category</td>
+                <td>
+                    <input type="text" name="txtname" placeholder="Enter sub category" required value="{{editdata.subcategory_name}}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Save">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+        <br>
+    </form>
+    <table border="1" align="center" cellpadding="10" width="100%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.category.category_name}}</td>
+            <td>{{i.subcategory_name}}</td>
+            <td>
+                <a href="{% url 'Administrator:delsubcategory' i.id %}">Delete</a>
+                <a href="{% url 'Administrator:subcategoryupdate' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

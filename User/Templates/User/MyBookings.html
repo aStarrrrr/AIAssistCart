@@ -1,0 +1,30 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <table border="1" align="center" cellpadding="10" width="70%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Price</th>
+            <th>More</th>
+       
+        </tr>
+        {% for i in bookingdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.booking_amount}}</td>
+            <td><a href="{% url 'User:MyOrders' i.id %}">View Products</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

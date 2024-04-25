@@ -1,0 +1,49 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+</head>
+<body>
+    <div class="container-fluid d-bg-image">
+        <div class="d-profile" align="center">
+            <table align="center" style="color: rgb(0, 0, 0);" cellpadding="10px" class="d-card" border="2" width="30%">
+                <tr>
+                    <td colspan="2" align="center"><img src="{{data.user_photo.url}}" alt="" width="150" height="150"></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>{{data.user_name}}</td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td>{{data.user_contact}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{data.user_email}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><a class="d-card-button" href="{% url 'User:editprofile' %}">Edit Profile</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <a class="d-card-button" href="{% url 'User:changepassword' %}">Change password</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+
+    </div>
+</body>
+
+</html>
+{% endblock content %}

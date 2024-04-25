@@ -1,0 +1,54 @@
+
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <body>
+        <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+        <form name="frmDepartment" method="post">
+            {% csrf_token %}
+            <table align="center">
+            <tr>
+                <td>Department</td>
+                <td>
+                    <input type="text" name="txtdepartment" placeholder="Enter department" value="{{editdata.department_name}}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Save" name="btnsave">
+                    <input type="reset" value="Cancel" name="btncancel">
+                </td>
+            </tr>
+            </table>
+        </form>
+    
+        <table border="1" align="center" cellpadding="10">
+            <tr>
+                <th>Sl.No</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.department_name}}</td>
+                <td>
+                    <a href="{% url 'Administrator:deldepartment' i.id %}">Delete</a> 
+                    <a href="{% url 'Administrator:departmentupdate' i.id %}">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </body>
+</body>
+</html>
+{% endblock content %}

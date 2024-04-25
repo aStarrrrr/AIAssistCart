@@ -1,0 +1,33 @@
+{% for i in data %}
+
+<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+    <!-- Block2 -->
+    <div class="block2">
+        <div class="block2-pic hov-img0">
+            <img src="{{i.product_photo.url}}" alt="IMG-PRODUCT" width="200" height="300">
+
+
+        </div>
+
+        <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+                <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                    {{i.product_name}}
+                </a>
+
+                <span class="stext-105 cl3">
+                    {{i.product_price}} RS
+            </div>
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                <a href="{% url 'User:AddCart' i.id %}" class="btn-addwish-b2 dis-block pos-relative ">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
+                        <i class="zmdi zmdi-shopping-cart" style="color: rgb(137, 137, 229);"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}

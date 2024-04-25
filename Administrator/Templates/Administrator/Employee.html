@@ -1,0 +1,106 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a>
+    <form method="POST">
+        {% csrf_token %}
+        <table align="center">
+            <tr>
+                <td>Department</td>
+                <td>
+                    <select name="sel_department" id="sel_department">
+                        <option value="">...Select...</option>
+                        {% for i in departmentdata %}
+                        <option
+                        {% if i.id == editdata.department_id %}
+                        selected
+                        {% endif %}
+                        value="{{i.id}}">{{i.department_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Designation</td>
+                <td>
+                    <select name="sel_designation" id="sel_designaton">
+                        <option value="">...Select...</option>
+                        {% for i in designationdata %}
+                        <option
+                        {% if i.id == editdata.designation_id %}
+                        selected
+                        {% endif %}
+                        value="{{i.id}}">{{i.designation_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+
+
+
+            <tr>
+            <td>Employee Name</td>
+                <td>
+                    <input type="text" name="txtname" placeholder="Enter the name" required value="{{editdata.employee_name}}">
+                </td>
+            </tr>
+            <tr>
+            <td>Contact</td>
+                <td>
+                    <input type="number" name="txtcontact" placeholder="Enter number" required value="{{editdata.employee_contact}}">
+                </td>
+            </tr>
+            <tr>
+            <td>Employee Salary</td>
+                <td>
+                    <input type="number" name="txtsalary" placeholder="Enter salary" required value="{{editdata.employee_salary}}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnsubmit" value="Save">
+                    <input type="reset" name="btncancel" value="Cancel">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <table border="1" align="center" cellpadding="10">
+        <tr>
+            <th>Sl.No</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.department.department_name}}</td>
+            <td>{{i.designation.designation_name}}</td>
+            <td>{{i.employee_name}}</td>
+            <td>{{i.employee_contact}}</td>
+            <td>{{i.employee_salary}}</td>
+            <td>
+                <a href="{% url 'Administrator:delemployee' i.id %}">Delete</a>
+                <a href="{% url 'Administrator:employeeupdate' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

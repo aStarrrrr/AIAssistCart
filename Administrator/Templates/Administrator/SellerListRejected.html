@@ -1,0 +1,48 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+    <br>
+    <table border="1" align="center" cellpadding="10" width="100%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Photo</th>
+            <th>Proof</th>
+            <th>District</th>
+            <th>Place</th>
+            <th>Action</th>
+        </tr>
+        {% for i in sellerdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.seller_name}}</td>
+            <td>{{i.seller_contact}}</td>
+            <td>{{i.seller_gender}}</td>
+            <td>{{i.seller_email}}</td>
+            <td><img src="{{i.seller_photo.url}}" width="150" height="150" alt=""></td>
+            <td><img src="{{i.seller_proof.url}}" width="150" height="150" alt=""></td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>
+                <a href="{% url 'Administrator:acceptseller' i.id %}">Accept</a>
+    
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'Seller/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <div class="container-fluid d-bg-image" align="center">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-profile">
+            <table class="d-card" style="color: black;" align="center" cellpadding="10px" border="1" width="30%">
+                <tr> 
+                    <td>Name</td>
+                    <td><input required type="text" class="textbox" name="txtname" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$" id="" value="{{prodata.seller_name}}" required ></td>
+                    
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td><input type="text" name="txtcon" class="textbox" id="" value="{{prodata.seller_contact}}"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="email" name="txtemail" class="textbox" id="" value="{{prodata.seller_email}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input class="d-card-button" type="submit" value="Update" name="btnsub"></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    </div>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'Seller:my_pro' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,365 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .selectTag {
+            width: 200px;
+            /* Adjust width as needed */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            /* Adjust font size as needed */
+            background-color: #fff;
+            /* Background color */
+            color: #333;
+            /* Text color */
+        }
+
+        .selectTag:hover {
+            border-color: #999;
+            /* Border color on hover */
+        }
+
+        .selectTag:focus {
+            outline: none;
+            /* Remove focus outline */
+            border-color: #007bff;
+            /* Border color on focus */
+        }
+
+        /* Styling the dropdown arrow */
+        .selectTag::-ms-expand {
+            display: none;
+            /* Remove default arrow on Internet Explorer */
+        }
+
+        .selectTag option {
+            font-size: 14px;
+            /* Adjust font size of options as needed */
+            background-color: #fff;
+            /* Background color of options */
+            color: #333;
+            /* Text color of options */
+        }
+
+        /* Styling the dropdown list */
+        .selectTag option:hover {
+            background-color: #f0f0f0;
+            /* Background color on hover */
+        }
+
+        .btn {
+            background-color: #007bff;
+            /* Blue */
+            color: white;
+            height: 40px;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            margin-top: 30px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            /* Darker Blue */
+        }
+
+        .btn:active {
+            background-color: #004080;
+            /* Even darker blue */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table align="center">
+            <tr>
+                <td>Category</td>
+                <td>
+                    <select name="sel_category" id="sel_category">
+                        <option value="">...Select...</option>
+                        {% for i in categorydata %}
+                        <option value="{{i.id}}">{{i.category_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>Sub Category</td>
+                <td>
+                    <select name="sel_subcategory" id="sel_subcategory">
+                        <option value="">...Select...</option>
+                    </select>
+                </td>
+                <td>Brand</td>
+                <td>
+                    <select name="sel_brand" id="sel_category">
+                        <option value="">...Select...</option>
+                        {% for i in branddata %}
+                        <option value="{{i.id}}">{{i.brand_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td align="center">
+                    <input type="submit" name="btnsubmit" value="Search">
+                </td>
+            </tr>
+
+
+
+        </table>
+
+
+        <table align="center" cellpadding="10">
+
+
+            <tr>
+                {% for i in productdata %}
+
+                <td>
+                    <p style="border: 3px solid black;  padding: 10px;"><img src="{{i.product_photo.url}}" width="150"
+                            height="150" alt=""><br>
+                        {{i.product_name}}<br>
+                        {{i.subcategory.category.category_name}}<br>
+                        {{i.subcategory.subcategory_name}}<br>
+                        {{i.brand.brand_name}}<br>
+                        {{i.product_price}}<br>
+                        {{i.product_details}}<br>
+                    <p align="center">
+                        <a href="{% url 'User:AddCart' i.id %}">Add to Cart</a>
+                    </p>
+                    </p>
+                </td>
+                {% if forloop.counter|divisibleby:4 %}
+            </tr>
+            <tr>
+                {% endif %}
+                {% endfor %}
+        </table>
+
+    </form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Product -->
+    <section class="bg0 p-t-23 p-b-140">
+        <div class="container">
+            <div class="p-b-10">
+                <h3 class="ltext-103 cl5">
+                    Product Overview
+                </h3>
+            </div>
+
+            <div class="flex-w flex-sb-m p-b-52">
+                <div class="flex-w flex-l-m filter-tope-group m-tb-10" style="width: 1090px;">
+
+                </div>
+
+                <div class="flex-w flex-c-m m-tb-10">
+                    <div
+                        class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+                        <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+                        <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                        Filter
+                    </div>
+
+                    <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+                        <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+                        <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                        Search
+                    </div>
+                </div>
+
+                <!-- Search product -->
+                <div class="dis-none panel-search w-full p-t-10 p-b-15">
+                    <div class="bor8 dis-flex p-l-15">
+                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+
+                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
+                            onkeyup="searchproduct(this.value)" placeholder="Search">
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="dis-none panel-filter w-full p-t-10">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+                            <div class="filter-col1 p-r-15 p-b-27">
+                                <div class="mtext-102 cl2 p-b-15">
+                                    Categories
+                                </div>
+
+                                <select name="sel_category" id="sel_category"  class="selectTag">
+                                    <option value="">...Select...</option>
+                                    {% for i in categorydata %}
+                                    <option value="{{i.id}}">{{i.category_name}}</option>
+                                    {% endfor %}
+                                </select>
+
+
+
+                            </div>
+
+                            <div class="filter-col2 p-r-15 p-b-27">
+                                <div class="mtext-102 cl2 p-b-15">
+                                    subcategories
+                                </div>
+
+                                <select name="sel_subcategory" id="sel_subcategory" onchange="searchFilter()" class="selectTag">
+                                    <option value="">...Select...</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-col3 p-r-15 p-b-27">
+                                <div class="mtext-102 cl2 p-b-15">
+                                    Brand
+                                </div>
+
+                                <select name="sel_brand" id="sel_brand" onchange="searchFilter()" class="selectTag">
+                                    <option value="">...Select...</option>
+                                    {% for i in branddata %}
+                                    <option value="{{i.id}}">{{i.brand_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="row isotope-grid" id="content">
+                {% for i in productdata %}
+
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+                    <!-- Block2 -->
+                    <div class="block2">
+                        <div class="block2-pic hov-img0">
+                            <img src="{{i.product_photo.url}}" alt="IMG-PRODUCT">
+
+
+                        </div>
+
+                        <div class="block2-txt flex-w flex-t p-t-14">
+                            <div class="block2-txt-child1 flex-col-l ">
+                                <a href="" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                    {{i.product_name}}
+                                </a>
+
+                                <span class="stext-105 cl3">
+                                    {{i.product_price}} RS
+                            </div>
+
+                            <div class="block2-txt-child2 flex-r p-t-3">
+                                <a href="{% url 'User:AddCart' i.id %}" class="btn-addwish-b2 dis-block pos-relative ">
+                                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
+                                        <i class="zmdi zmdi-shopping-cart" style="color: rgb(137, 137, 229);"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+            <!-- Load more -->
+            <!-- <div class="flex-c-m flex-w w-full p-t-45">
+                <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                    Load More
+                </a>
+            </div> -->
+        </div>
+    </section>
+
+
+</body>
+
+</html>
+
+{% if msg %}
+<script>
+    alert('{{msg}}');
+    window.location = "/User/SearchProduct/"
+</script>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $("#sel_category").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'User:ajaxsubcategory' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#sel_subcategory").html(data);
+                searchFilter()
+            },
+        });
+    });
+
+
+    function searchFilter() {
+        // alert(pdt)
+        var ur = "{% url 'User:ajaxFilter' %}"
+        var category = document.getElementById("sel_category").value;
+        var subcategory = document.getElementById("sel_subcategory").value;
+        var brand = document.getElementById("sel_brand").value;
+        $.ajax({
+            url: ur,
+            data: { category: category,subcategory: subcategory,brand: brand },
+            success: function (data) {
+                $("#content").html(data);
+            },
+        });
+    }
+
+
+
+    function searchproduct(pdt) {
+        // alert(pdt)
+        var ur = "{% url 'User:ajaxsearchpdt' %}"
+        $.ajax({
+            url: ur,
+            data: { key: pdt, },
+            success: function (data) {
+                $("#content").html(data);
+            },
+        });
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'Seller/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" align="center" cellpadding="10" width="70%">
+        <tr>
+            <td>Slno</td>
+            <td>User Name</td>
+            <td>Contact</td>
+            <td>Amount</td>
+            <td>Status</td>
+            <td>Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.userID.user_name}}</td>
+            <td>{{i.userID.user_contact}}</td>
+            <td>{{i.booking_amount}}</td>
+            <td>
+                {% if i.booking_status == 1 %}
+                Payed
+                {% else %}
+                Not Payed
+                {% endif %}
+            </td>
+            <td><a href="{% url 'Seller:Myorders' i.id %}">View Product</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

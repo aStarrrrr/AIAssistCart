@@ -1,0 +1,42 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+    <br>
+    <table border="1" align="center" cellpadding="10" width="100%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Name</th>
+            <th>Place</th>
+            <th>District</th>
+            <th>User Photo</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Address</th>
+            
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.seller_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td><img src="{{i.user_photo.url}}" width="50" height="50"></td>
+            <td>{{i.seller_contact}}</td>
+            <td>{{i.seller_email}}</td>
+            <td>{{i.seller_address}}</td>
+           
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}

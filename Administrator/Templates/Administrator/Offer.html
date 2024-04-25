@@ -1,0 +1,70 @@
+{% extends 'Administrator/Header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'Administrator:LoadingHomePage' %}">Home</a><br>
+    <br>
+    <form name="frmOffer" method="post">
+        {% csrf_token %}
+        <table align="center" width="100%">
+            <tr>
+                <td>Offer Name</td>
+                <td><input type="text" name="txtname" placeholder="Enter Offer Name" required value="{{editdata.offer_name}}"></td>
+            </tr>
+            <tr>
+                <td>From Date</td>
+                <td><input type="text" name="txtfromdate" placeholder="Enter From Date" required value="{{editdata.offer_fromdate}}"></td>
+            </tr>
+            <tr>
+                <td>To Date</td>
+                <td><input type="text" name="txttodate" placeholder="Enter To Date" required value="{{editdata.offer_todate}}"></td>
+            </tr>
+            <tr>
+                <td>Discription</td>
+                <td>
+                       <textarea name="txtdiscription" rows="6" cols="20"></textarea required value="{{editdata.offer_discription}}">
+               </td>
+               </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Save" name="btnsave">
+                    <input type="reset" value="Cancel" name="btncancel">
+                </td>
+            </tr>
+        </table>
+        <br>
+    </form>
+
+    <table border="1" align="center" cellpadding="10" width="100%">
+        <tr>
+            <th>Sl.No</th>
+            <th>Offer Name</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Discription</th>
+            <th>Action</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.offer_name}}</td>
+            <td>{{i.offer_fromdate}}</td>
+            <td>{{i.offer_todate}}</td>
+            <td>{{i.offer_discription}}</td>
+            <td>
+                <a href="{% url 'Administrator:deloffer' i.id %}">Delete</a> 
+                <a href="{% url 'Administrator:offerupdate' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock content %}
