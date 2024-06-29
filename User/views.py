@@ -65,6 +65,48 @@ def searchproduct(request):
         category = tbl_category.objects.all()
         brand = tbl_brandname.objects.all()
         productData=tbl_product.objects.all()
+          # Collect original data from the tbl_product
+        product_data = {
+            'product_id': [product.id for product in productData],
+            'product_name': [product.product_name for product in productData],
+            'product_photo': [product.product_photo for product in productData],
+            'product_price': [product.product_price for product in productData],
+            'product_brand': [product.brand.brand_name for product in productData],
+            'keywords': [product.product_details for product in productData]
+        }
+        # Create DataFrame from product data
+        products_df = pd.DataFrame(product_data)
+
+        # Sample user's past search/query
+        user_search_history = tbl_history.objects.filter(userID=request.session["uid"])
+
+        # Combine all user search histories into a single query
+        user_query = ' '.join([history.search_history for history in user_search_history])
+
+        # Step 1: TF-IDF Vectorization
+        tfidf_vectorizer = TfidfVectorizer()
+        tfidf_matrix = tfidf_vectorizer.fit_transform(products_df['keywords'])
+
+        # Step 2: Calculate cosine similarity between user query and product keywords
+        user_query_tfidf = tfidf_vectorizer.transform([user_query])
+
+        cosine_similarities = cosine_similarity(user_query_tfidf, tfidf_matrix)
+
+        # Step 3: Get top N recommendations
+        top_n = 60 
+        # Number of recommendations
+        similar_products_indices = cosine_similarities.argsort()[0][-top_n:][::-1]  # Indices of most similar products
+        print(similar_products_indices)
+
+        recommended_products = products_df.iloc[similar_products_indices]
+        recommended_products_data = recommended_products.to_dict(orient='records')
+
+        # print(recommended_products_dat)
+        # recommended_products_data = tbl_product.objects.filter(id__in=recommended_products.product_id)
+        # print(recommended_products_data)
+        # recommended_products_data = recommended_products.to_dict(orient='records')
+        # print(recommended_products_data)
+
         if request.method=="POST":
             subcategorydata = tbl_subcategory.objects.get(id=request.POST.get('sel_subcategory'))
             if request.POST.get('sel_brand')!="":
@@ -78,7 +120,7 @@ def searchproduct(request):
                 productDatafilter=tbl_product.objects.filter(subcategory=subcategorydata)
                 return render(request,"User/ProductSearch.html",{"productdata":productDatafilter,"categorydata":category,"branddata":brand})
         else:
-            return render(request,"User/ProductSearch.html",{"categorydata":category,"branddata":brand,"productdata":productData})
+            return render(request,"User/ProductSearch.html",{"categorydata":category,"branddata":brand,"productdata":recommended_products_data})
     else:
         return redirect("Guest:Login")
     
